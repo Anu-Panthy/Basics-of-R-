@@ -46,3 +46,4 @@ my_people$gender <- factor(my_people$gender)
 
 anova_res <- aov(commute ~ gender, data = my_people)
 summary(anova_res)
+
