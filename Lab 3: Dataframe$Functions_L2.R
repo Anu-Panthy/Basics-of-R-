@@ -259,3 +259,4 @@ summary_by_sex
 write.csv(p_mutated, "people_transformed.csv", row.names = FALSE)
 write.csv(summary_by_sex, "people_summary_by_sex.csv", row.names = FALSE)
 
+
