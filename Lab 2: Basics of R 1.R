@@ -76,3 +76,4 @@ LMA<-Leaf_mass/Leaf_area
 mean(LMA)
 mean(Leaf_mass/Leaf_area)
 
+
