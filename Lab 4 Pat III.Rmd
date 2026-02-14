@@ -1,0 +1,129 @@
+---
+title: "Bioactive Data Report"
+author: "Anu Panthy"
+date: "`r Sys.Date()`"
+output:
+  word_document:
+    toc: true
+    number_sections: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+```
+
+```{r}
+
+getwd()
+list.files()
+
+
+```
+
+
+```{r}
+
+df <- read.csv("bio_active.csv")
+
+
+
+```
+
+```{r}
+
+names(df)[names(df) == "X..AA"] <- "AA"
+head(df)
+
+
+
+
+```
+
+
+```{r}
+
+names(df)
+str(df)
+summary(df$AA)
+
+
+
+
+```
+
+
+```{r}
+
+table(df$Assay)
+table(df$Type)
+table(df$Storage)
+table(df$Microgreen)
+
+
+
+
+```
+
+
+```{r}
+
+dpph <- df %>%
+  filter(Assay == "DPPH") %>%
+  mutate(
+    Storage = factor(Storage, levels = c("0","7","15","30")),
+    Type = factor(Type, levels = c("Fresh","FD")),
+    Microgreen = factor(Microgreen)
+  )
+
+unique(dpph$Type)
+unique(dpph$Storage)
+unique(dpph$Microgreen)
+
+
+
+
+```
+
+```{r}
+
+pd <- position_dodge(width = 0.80)
+
+ggplot(dpph, aes(x = Storage, y = AA, fill = Type)) +
+  geom_boxplot(
+    width = 0.60,
+    outlier.shape = NA,
+    color = "black",
+    position = pd
+  ) +
+  geom_point(
+    aes(color = Type),
+    position = position_jitterdodge(jitter.width = 0.06, dodge.width = 0.80),
+    size = 1.6,
+    alpha = 0.75
+  ) +
+  facet_wrap(~ Microgreen, nrow = 1) +
+  labs(
+    title = "DPPH Antioxidant Activity",
+    x = "Storage (days)",
+    y = "% Inhibition (AA)"
+  ) +
+  theme_classic(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "top"
+  )
+
+```
+
+
+
+
